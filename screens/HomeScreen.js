@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity,  } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 
 class HomeScreen extends React.Component {
     render() {
       return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.header}>
             <Image source={require('../assets/img/logo.png')} style={styles.logo} />
                 <View style={styles.header_container}>
@@ -26,13 +26,14 @@ class HomeScreen extends React.Component {
                 <Text style={styles.copy}>&copy; ShadowBrockers 2023</Text>
             </View>
         
-        </View>
+        </ScrollView>
       );
     }
   }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 40,
     flex: 1,
   },
   header: {

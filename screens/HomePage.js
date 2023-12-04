@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, ScrollView } from 'react-native';
 
 class HomePage extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
 
         <View style={styles.bloque1} id="seccion1">
             <Text style={styles.heading}>¿Eres propietario?</Text>
@@ -45,13 +45,17 @@ class HomePage extends React.Component {
             this.props.navigation.navigate('RentFlow')
           }
         />
-      </View>
+      </ScrollView>
     );
   }
 }
 
 
 const styles = StyleSheet.create({
+
+  container:{
+    padding: 30,
+  }
 
 })
 

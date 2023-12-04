@@ -14,7 +14,7 @@ const Login = ({ navigation }) => {
     // Puedes manejar la lógica de inicio de sesión aquí
     console.log(data);
     // Luego, puedes navegar a la siguiente pantalla
-    navigation.navigate('RentFlow');
+    navigation.navigate('Propietario');
   };
 
   return (
@@ -76,6 +76,7 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   error_txt: {
     color: 'red',
+    marginTop: 40,
   },
 
   container: {

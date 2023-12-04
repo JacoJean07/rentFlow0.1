@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import SelectDropdown from 'react-native-select-dropdown';
 import { set, useForm } from 'react-hook-form';
 
-const rol = ["Propietario", "Inquilino"];
+const rol = ["Propiedad1", "Propiedad2"];
 
 
-const Register = ({ navigation }) => {
+const NuevoContrato = ({ navigation }) => {
   const {
     register,
     setValue,
@@ -18,31 +18,39 @@ const Register = ({ navigation }) => {
     console.log(data);
     navigation.navigate('RentFlow');
   };
+  
+  
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.container_txt}>
-        Ingresa tu correo:
-      </Text>
-      <TextInput 
-        inputMode='email' 
-        onChangeText={(email) => setValue('email', email)}
-        style={styles.container_input}
-        placeholder='example@gmail.com'
-        {...register("email", {required: 'Email requerido',
-              pattern: {
-                value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, 
-                message: 'Correo invalido' }
-            })}
-      ></TextInput>
-      {errors.email && (
+      
+      <Text style={styles.container_txt}>Elige la Propiedad:</Text>
+      <View style={styles.container_select}>
+        <SelectDropdown
+          data={rol}
+          onSelect={(selectedItem, index) => {
+            setValue('Propiedad', selectedItem); // Agrega esta línea para registrar el valor del rol
+            console.log(selectedItem, index);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item;
+          }}
+          onChangeText={(text) => setValue('Propiedad', text)}
+          {...register('rol', { required: 'Selecciona un rol' })}
+        />
+      </View>
+      {errors.rol && (
         <Text style={styles.error_txt}>
-          {errors.email.message}
+            {errors.rol.message}
         </Text>
       )}
 
+
       <Text style={styles.container_txt}>
-        Ingresa tu contraseña:
+        Ingresa la Fecha de inicio:
       </Text>
       <TextInput 
         inputMode='text' 
@@ -136,29 +144,7 @@ const Register = ({ navigation }) => {
         </Text>
       )}
 
-      <Text style={styles.container_txt}>Elige un rol:</Text>
-      <View style={styles.container_select}>
-        <SelectDropdown
-          data={rol}
-          onSelect={(selectedItem, index) => {
-            setValue('rol', selectedItem); // Agrega esta línea para registrar el valor del rol
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-          onChangeText={(text) => setValue('rol', text)}
-          {...register('rol', { required: 'Selecciona un rol' })}
-        />
-      </View>
-      {errors.rol && (
-        <Text style={styles.error_txt}>
-            {errors.rol.message}
-        </Text>
-      )}
+      
 
       
 
@@ -227,4 +213,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Register;
+export default NuevoContrato;
