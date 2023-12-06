@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import { set, useForm } from 'react-hook-form';
+import { set, useForm, Controller } from 'react-hook-form';
+
+import { saveUsers } from './ResgisterApi';
 
 const rol = ["Propietario", "Inquilino"];
 
@@ -9,6 +11,7 @@ const rol = ["Propietario", "Inquilino"];
 const Register = ({ navigation }) => {
   const {
     register,
+    control,
     setValue,
     handleSubmit,
     formState: { errors }
@@ -16,6 +19,7 @@ const Register = ({ navigation }) => {
 
   const onSubmit = (data) => {
     console.log(data);
+    saveUsers(data);
     navigation.navigate('RentFlow');
   };
 
@@ -25,11 +29,11 @@ const Register = ({ navigation }) => {
         Ingresa tu correo:
       </Text>
       <TextInput 
-        inputMode='email' 
-        onChangeText={(email) => setValue('email', email)}
+        inputMode='text' 
+        onChangeText={(text) => setValue('username', text)}
         style={styles.container_input}
         placeholder='example@gmail.com'
-        {...register("email", {required: 'Email requerido',
+        {...register("username", {required: 'Email requerido',
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, 
                 message: 'Correo invalido' }
@@ -37,7 +41,7 @@ const Register = ({ navigation }) => {
       ></TextInput>
       {errors.email && (
         <Text style={styles.error_txt}>
-          {errors.email.message}
+          {errors.username.message}
         </Text>
       )}
 
@@ -69,10 +73,10 @@ const Register = ({ navigation }) => {
       </Text>
       <TextInput 
         inputMode='text' 
-        onChangeText={(text) => setValue('nombre', text)}
+        onChangeText={(text) => setValue('firstname', text)}
         style={styles.container_input}
         placeholder='Nombre'
-        {...register('nombre', { required: 'Campo Obligatorio' })}
+        {...register('firstname', { required: 'Campo Obligatorio' })}
       ></TextInput>
       {errors.nombre && (
         <Text style={styles.error_txt}>
@@ -85,10 +89,10 @@ const Register = ({ navigation }) => {
       </Text>
       <TextInput 
         inputMode='text' 
-        onChangeText={(text) => setValue('apellido', text)}
+        onChangeText={(text) => setValue('lastname', text)}
         style={styles.container_input}
         placeholder='Apellido'
-        {...register('apellido', { required: 'Campo Obligatorio' })}
+        {...register('lastname', { required: 'Campo Obligatorio' })}
       ></TextInput>
       {errors.apellido && (
         <Text style={styles.error_txt}>
@@ -108,7 +112,7 @@ const Register = ({ navigation }) => {
               minLength: {
                 // el valor 9 es por el numero de numeros que tiene el numero nacional (Ecuador)
                value:9,
-               message: 'El teléfono debe ser de mínimo s10 números'}
+               message: 'El teléfono debe ser de mínimo de 10 números'}
               })}
       ></TextInput>
       {errors.telefono && (
@@ -137,22 +141,31 @@ const Register = ({ navigation }) => {
       )}
 
       <Text style={styles.container_txt}>Elige un rol:</Text>
-      <View style={styles.container_select}>
-        <SelectDropdown
-          data={rol}
-          onSelect={(selectedItem, index) => {
-            setValue('rol', selectedItem); // Agrega esta línea para registrar el valor del rol
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-          onChangeText={(text) => setValue('rol', text)}
-          {...register('rol', { required: 'Selecciona un rol' })}
+
+    
+  <View style={styles.container_select}>
+        <Controller
+          control={control}
+          render={({ field }) => (
+            <SelectDropdown
+              data={rol}
+              onSelect={(selectedItem, index) => {
+                setValue('rol', selectedItem);
+                console.log(selectedItem, index);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              {...field}
+            />
+          )}
+          name="rol"
+         // rules={{ required: 'Selecciona un rol' }}
         />
+      
       </View>
       {errors.rol && (
         <Text style={styles.error_txt}>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useForm } from 'react-hook-form';
+import { loginUsers } from "./LoginApi";
 
 const Login = ({ navigation }) => {
   const {
@@ -10,11 +12,33 @@ const Login = ({ navigation }) => {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = (data) => {
+  const saveToken = async (token) => {
+    try {
+      if (token){
+     await AsyncStorage.setItem('authToken', token);
+      console.log('[+] Token almacenado con exito {}', token);
+      }else{
+              console.error('[-] El token es nulo o indefinido. No se almacenará en AsyncStorage.');
+      }
+       
+    } catch (error) {
+      console.error('[-] Error al almacenar el token:', error);
+      
+    }
+  };
+
+  const onSubmit = async (data) => {
     // Puedes manejar la lógica de inicio de sesión aquí
+    try {
     console.log(data);
+      const token = await loginUsers(data);
+    saveToken(token);
     // Luego, puedes navegar a la siguiente pantalla
     navigation.navigate('Propietario');
+    }catch(error){
+       console.error('Error al iniciar session:', error.message);
+       
+    }
   };
 
   return (
@@ -22,10 +46,10 @@ const Login = ({ navigation }) => {
       <Text style={styles.container_txt}>Ingresa tu usuario:</Text>
       <TextInput
         inputMode='text'
-        onChangeText={(text) => setValue('usuario', text)}
+        onChangeText={(text) => setValue('username', text)}
         style={styles.container_input}
         placeholder='Usuario'
-        {...register('usuario', { required: 'Campo Obligatorio' })}
+        {...register('username', { required: 'Campo Obligatorio' })}
       ></TextInput>
       {errors.usuario && (
         <Text style={styles.error_txt}>
