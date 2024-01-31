@@ -46,10 +46,10 @@ const Login = ({ navigation }) => {
       <Text style={styles.container_txt}>Ingresa tu usuario:</Text>
       <TextInput
         inputMode='text'
-        onChangeText={(text) => setValue('username', text)}
+        onChangeText={(text) => setValue('email', text)}
         style={styles.container_input}
-        placeholder='Usuario'
-        {...register('username', { required: 'Campo Obligatorio' })}
+        placeholder='Email'
+        {...register('email', { required: 'Campo Obligatorio' })}
       ></TextInput>
       {errors.usuario && (
         <Text style={styles.error_txt}>
@@ -91,7 +91,7 @@ const Login = ({ navigation }) => {
         style={styles.container_button}
         onPress={() => navigation.navigate('RentFlow')}
       >
-        <Text style={styles.container_button_txt}>Back to Home</Text>
+        <Text style={styles.container_button_txt}>Volver al Inicio</Text>
       </TouchableOpacity>
     </View>
   );

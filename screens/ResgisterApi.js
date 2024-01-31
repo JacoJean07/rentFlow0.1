@@ -1,12 +1,15 @@
 
 export async function saveUsers(userData) {
+
   try{
- const response =  await fetch('http://192.168.0.128:8080/auth/register', {
+ const response =  await fetch('http://192.168.0.128:8080/api/auth/saveUser', {
     method: 'POST',    body: JSON.stringify(userData),
     headers: {
       'Content-Type': 'application/json',
     }, 
   })
+
+       console.log('Solicitud al servidor:', JSON.stringify(userData));
 
   if (!response.ok) {
     const errorResponse = await response.json();

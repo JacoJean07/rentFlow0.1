@@ -1,17 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import { set, useForm, Controller } from 'react-hook-form';
-
+import Dropdown from '../assets/components/CountryPicker';
 import { saveUsers } from './ResgisterApi';
+import { useForm } from 'react-hook-form';
 
 const rol = ["Propietario", "Inquilino"];
-
 
 const Register = ({ navigation }) => {
   const {
     register,
-    control,
     setValue,
     handleSubmit,
     formState: { errors }
@@ -30,10 +27,10 @@ const Register = ({ navigation }) => {
       </Text>
       <TextInput 
         inputMode='text' 
-        onChangeText={(text) => setValue('username', text)}
+        onChangeText={(text) => setValue('email', text)}
         style={styles.container_input}
         placeholder='example@gmail.com'
-        {...register("username", {required: 'Email requerido',
+        {...register("email", {required: 'Email requerido',
               pattern: {
                 value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, 
                 message: 'Correo invalido' }
@@ -41,7 +38,7 @@ const Register = ({ navigation }) => {
       ></TextInput>
       {errors.email && (
         <Text style={styles.error_txt}>
-          {errors.username.message}
+          {errors.email.message}
         </Text>
       )}
 
@@ -73,32 +70,18 @@ const Register = ({ navigation }) => {
       </Text>
       <TextInput 
         inputMode='text' 
-        onChangeText={(text) => setValue('firstname', text)}
+        onChangeText={(text) => setValue('fullName', text)}
         style={styles.container_input}
-        placeholder='Nombre'
-        {...register('firstname', { required: 'Campo Obligatorio' })}
+        placeholder='Nombres Completos'
+        {...register('fullName', { required: 'Campo Obligatorio' })}
       ></TextInput>
-      {errors.nombre && (
+      {errors.fullName && (
         <Text style={styles.error_txt}>
-          {errors.nombre.message}
+          {errors.fullName.message}
         </Text>
       )}
 
-      <Text style={styles.container_txt}>
-        Ingresa tu Apellido:
-      </Text>
-      <TextInput 
-        inputMode='text' 
-        onChangeText={(text) => setValue('lastname', text)}
-        style={styles.container_input}
-        placeholder='Apellido'
-        {...register('lastname', { required: 'Campo Obligatorio' })}
-      ></TextInput>
-      {errors.apellido && (
-        <Text style={styles.error_txt}>
-          {errors.apellido.message}
-        </Text>
-      )}
+
 
       <Text style={styles.container_txt}>
         Ingresa tu Telefono:
@@ -107,17 +90,17 @@ const Register = ({ navigation }) => {
         inputMode='numeric' 
         placeholder='0999999999'
         style={styles.container_input}
-        onChangeText={(text) => setValue('telefono', text)}
-        {...register("telefono", {required: 'Número requerido',
+        onChangeText={(text) => setValue('phone', `+593 ${text}`)}
+        {...register("phone", {required: 'Número requerido',
               minLength: {
                 // el valor 9 es por el numero de numeros que tiene el numero nacional (Ecuador)
                value:9,
                message: 'El teléfono debe ser de mínimo de 10 números'}
               })}
       ></TextInput>
-      {errors.telefono && (
+      {errors.phone && (
         <Text style={styles.error_txt}>
-            {errors.telefono.message}
+            {errors.phone.message}
         </Text>
       )}
 
@@ -127,53 +110,18 @@ const Register = ({ navigation }) => {
       <TextInput 
         inputMode='text' 
         placeholder='173927486-3'
-        onChangeText={(text) => setValue('cedula', text)}
+        onChangeText={(text) => setValue('uid', text)}
         style={styles.container_input}
-        {...register('cedula', {required: 'Cedula/DNI requerido',
+        {...register('uid', {required: 'Cedula/DNI requerido',
             minLength: {
                 value:9,
                 message: 'Cedula invalida'}})}
       ></TextInput>
-      {errors.cedula && (
+      {errors.uid && (
         <Text style={styles.error_txt}>
-            {errors.cedula.message}
+            {errors.uid.message}
         </Text>
       )}
-
-      <Text style={styles.container_txt}>Elige un rol:</Text>
-
-    
-  <View style={styles.container_select}>
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <SelectDropdown
-              data={rol}
-              onSelect={(selectedItem, index) => {
-                setValue('rol', selectedItem);
-                console.log(selectedItem, index);
-              }}
-              buttonTextAfterSelection={(selectedItem, index) => {
-                return selectedItem;
-              }}
-              rowTextForSelection={(item, index) => {
-                return item;
-              }}
-              {...field}
-            />
-          )}
-          name="rol"
-         // rules={{ required: 'Selecciona un rol' }}
-        />
-      
-      </View>
-      {errors.rol && (
-        <Text style={styles.error_txt}>
-            {errors.rol.message}
-        </Text>
-      )}
-
-      
 
       <TouchableOpacity 
         style={styles.container_button}
@@ -188,7 +136,7 @@ const Register = ({ navigation }) => {
         style={styles.container_button}
         onPress={() => navigation.navigate('RentFlow')}
       >
-        <Text style={styles.container_button_txt}>Back to Home</Text>
+        <Text style={styles.container_button_txt}>Volver al Inicio</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -229,15 +177,6 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
   },
-
-  container_select: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    backgroundColor: 'none',
-    alignItems: 'center',
-    margin: 10,
-  }
 });
 
 export default Register;
