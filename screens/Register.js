@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import Dropdown from '../assets/components/CountryPicker';
+import Dropdown from '../components/CountryPicker';
 import { saveUsers } from './ResgisterApi';
 import { useForm } from 'react-hook-form';
 

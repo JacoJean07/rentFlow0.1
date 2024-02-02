@@ -9,7 +9,7 @@ const ProInicio = () => {
                 Bienvenido a RENTFLOW tu gestor de movimientos inmobiliarios de confianza
             </Text>
             
-            <Image source={require('../../assets/img/logo.png')} style={styles.logo} />
+            <Image source={require('../../assets/img/MARCA.png')} style={styles.logo} />
 
         </ScrollView>
     )

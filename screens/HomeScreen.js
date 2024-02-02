@@ -1,35 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
-
+import SubirDatosAFirestore from '../configFirebase/pushPagos';
 class HomeScreen extends React.Component {
-    render() {
-      return (
-        <ScrollView style={styles.container}>
-            <View style={styles.header}>
-            <Image source={require('../assets/img/logo.png')} style={styles.logo} />
-                <View style={styles.header_container}>
-                <TouchableOpacity style={styles.header_container_Link} onPress={() => this.props.navigation.navigate('Login')}>
-                    <Text style={styles.linkText}>INICIAR SESIÓN</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.header_container_Link} onPress={() => this.props.navigation.navigate('Register')}>
-                    <Text style={styles.linkText}>REGISTRARSE</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.header_container_Link} onPress={() => this.props.navigation.navigate('HomePage')}>
-                    <Text style={styles.linkText}>SOBRE NOSOTROS</Text>
-                </TouchableOpacity>
-                </View>
-            </View>
-
-            <View style={styles.copy_container}>
-                <Text style={styles.copy}>&copy; ShadowBrockers 2023</Text>
-            </View>
-        
-        </ScrollView>
-      );
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      mostrarDatosFirestore: false,
+    };
   }
+
+  render() {
+    return (
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Image source={require('../assets/img/MARCA.png')} style={styles.logo} />
+          <View style={styles.header_container}>
+            <TouchableOpacity
+              style={styles.header_container_Link}
+              onPress={() => this.props.navigation.navigate('Login')}>
+              <Text style={styles.linkText}>INICIAR SESIÓN</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.header_container_Link}
+              onPress={() => this.props.navigation.navigate('Register')}>
+              <Text style={styles.linkText}>REGISTRARSE</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.header_container_Link}
+              onPress={() => {
+                this.props.navigation.navigate('HomePage');
+                this.setState({ mostrarDatosFirestore: true });
+              }}>
+              <Text style={styles.linkText}>SOBRE NOSOTROS</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Contenido adicional de la pantalla */}
+
+        {this.state.mostrarDatosFirestore && <SubirDatosAFirestore />}
+
+        <View style={styles.copy_container}>
+          <Text style={styles.copy}>&copy; ShadowBrockers 2023</Text>
+        </View>
+        <StatusBar style="auto" />
+      </ScrollView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -49,9 +68,7 @@ const styles = StyleSheet.create({
   header_container: {
     flexDirection: 'column',
   },
-  header_container_Link: {
-    
-  },
+  header_container_Link: {},
   linkText: {
     color: '#ffffff',
     textAlign: 'center',
@@ -71,9 +88,7 @@ const styles = StyleSheet.create({
   },
   copy: {
     textAlign: 'center',
-
-  }
-  
+  },
 });
 
 export default HomeScreen;

@@ -3,8 +3,12 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useForm } from 'react-hook-form';
 import { loginUsers } from "./LoginApi";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../configFirebase/firebaseConfig';
 
 const Login = ({ navigation }) => {
+
+
   const {
     register,
     setValue,
@@ -31,8 +35,9 @@ const Login = ({ navigation }) => {
     // Puedes manejar la lógica de inicio de sesión aquí
     try {
     console.log(data);
-      const token = await loginUsers(data);
-    saveToken(token);
+    // const token = await loginUsers(data);
+    //saveToken(token);
+    await signInWithEmailAndPassword(auth, data.email, data.password)
     // Luego, puedes navegar a la siguiente pantalla
     navigation.navigate('Propietario');
     }catch(error){

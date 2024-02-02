@@ -2,7 +2,7 @@
 export async function saveUsers(userData) {
 
   try{
- const response =  await fetch('http://192.168.0.128:8080/api/auth/saveUser', {
+ const response =  await fetch('http://192.168.18.96:8080/api/auth/saveUser', {
     method: 'POST',    body: JSON.stringify(userData),
     headers: {
       'Content-Type': 'application/json',

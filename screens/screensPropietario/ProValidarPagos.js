@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, Text, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import PagosTable from "../../components/PagosTable";
 
 const ProValidarPagos = () => {
 
@@ -12,7 +13,8 @@ const ProValidarPagos = () => {
                 Lista de Pagos por Validar
             </Text>
             <ScrollView style={styles.container__HistorialPagos}>
-                
+                  {/* Usa tu componente PagosTable aquí */}
+                <PagosTable />
             </ScrollView>
 
         </View>
